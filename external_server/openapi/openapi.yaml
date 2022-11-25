@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: guardaisupport@navinfo.eu
+  description: This is the API for the GuardAI External Model and Dataset API.
+  license:
+    name: GuardAI Commercial
+    url: https://guardai.navinfo.cloud/eula.html
+  termsOfService: https://guardai.navinfo.cloud/eula.html
+  title: GuardAI External Model and Dataset API
+  version: 1.0.1
+externalDocs:
+  description: Find out more about GuardAI
+  url: https://www.navinfo.eu/services/cybersecurity/guardai/
+servers:
+- description: Local server
+  url: http://localhost:8083
+tags:
+- description: Model API
+  name: model
+- description: Dataset API
+  name: dataset
+paths:
+  /model:
+    get:
+      description: Get model input and output structures
+      operationId: structure
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelStructure'
+          description: Model structure
+        "405":
+          description: Invalid input
+      summary: Get model input and output structures
+      tags:
+      - model
+      x-openapi-router-controller: external_server.controllers.model_controller
+    post:
+      description: Perform prediction on a model
+      operationId: predict
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding:
+              data:
+                contentType: application/octet-stream
+                style: form
+            schema:
+              $ref: '#/components/schemas/predict_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: Prediction result in .npz format
+        "405":
+          description: Invalid input
+      summary: Perform prediction on a model
+      tags:
+      - model
+      x-openapi-router-controller: external_server.controllers.model_controller
+components:
+  schemas:
+    ModelStructure:
+      example:
+        outputs:
+        - shape:
+          - shape
+          - shape
+          name: name
+        - shape:
+          - shape
+          - shape
+          name: name
+        inputs:
+        - shape:
+          - shape
+          - shape
+          name: name
+        - shape:
+          - shape
+          - shape
+          name: name
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ModelStructure_inputs_inner'
+          title: inputs
+          type: array
+        outputs:
+          items:
+            $ref: '#/components/schemas/ModelStructure_inputs_inner'
+          title: outputs
+          type: array
+      title: ModelStructure
+      type: object
+    predict_request:
+      properties:
+        data:
+          format: binary
+          type: string
+      type: object
+    ModelStructure_inputs_inner:
+      example:
+        shape:
+        - shape
+        - shape
+        name: name
+      properties:
+        name:
+          title: name
+          type: string
+        shape:
+          items:
+            type: string
+          title: shape
+          type: array
+      title: ModelStructure_inputs_inner
+      type: object
+  securitySchemes:
+    api_key:
+      in: header
+      name: api_key
+      type: apiKey
+      x-apikeyInfoFunc: external_server.controllers.security_controller_.info_from_api_key
