@@ -20,7 +20,7 @@ Customizations needed for your model should be made to external_server/implement
 
 On the GuardAI platform, create a new project and select "External" as the model framework type.
 
-   <img src="images/project_config.png" alt="Image of menu" height="250"/>
+   <img src="images/project_config.png" alt="Image of menu" height="300"/>
 
 Then, edit the wrapper script to enter the URL of the server in the "EXTERNAL_HOST" variable.
 
