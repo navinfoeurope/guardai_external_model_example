@@ -22,11 +22,15 @@ Customizations needed for your model should be made to external_server/implement
 
 On the GuardAI platform, create a new project and select "External" as the model framework type.
 
-   <img src="images/project_config.png" alt="Image of menu" height="300"/>
+   <img src="images/project_config.png" alt="project config" height="300"/>
 
 Then, edit the wrapper script to enter the URL of the server in the "EXTERNAL_HOST" variable.
 
-   <img src="images/external_host.png" alt="Image of menu" height="250"/>
+   <img src="images/external_host.png" alt="external host" height="250"/>
+
+Optionally configure the project to also use an external dataset by defining and using an ExternalDataset:
+
+   <img src="images/external_ds.png" alt="Image of external ds configuration" height="350"/>
 
 Note: The GuardAI platform needs to be able to reach your external server, so make sure the server is reachable 
 by appropriate means (e.g. port forwarding, VPN, firewall rules, etc.)
