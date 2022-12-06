@@ -4,6 +4,8 @@ This is a demo server for the GuardAI external API. It is a simple Flask server 
 serves an ONNX detection model over the GuardAI external API to allow the GuardAI platform to perform tests remotely on 
 it. It is meant to be used for testing and evaluation purposes only - for performance reasons, 
 please upload your model to the GuardAI platform to test it directly.
+Optionally, you can also use this example to serve the dataset as well by
+using the External dataset in your project.
 
 ## Requirements
 Python 3.5+

@@ -22,12 +22,14 @@ from external_server.models.dataset_structure import DatasetStructure
 from external_server.models.model_structure import ModelStructure
 from external_server.models.model_structure_inputs_inner import ModelStructureInputsInner
 
+# this should point to the root of the dataset - coco 2017 in this case
 DS_ROOT = "data"
 MODE_PATH = "ssd-12.onnx"
 
 _ort_session = None
 _inputs = None
 _outputs = None
+_ds = None
 
 
 class CocoDetection(torchvision.datasets.CocoDetection):
