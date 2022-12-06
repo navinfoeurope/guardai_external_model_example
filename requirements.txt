@@ -12,3 +12,5 @@ Flask == 2.1.1
 # requirements for a demo onnx model
 numpy
 onnxruntime == 1.11.1
+torchvision == 0.10.0
+pycocotools

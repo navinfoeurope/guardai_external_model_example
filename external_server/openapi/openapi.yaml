@@ -21,6 +21,49 @@ tags:
 - description: Dataset API
   name: dataset
 paths:
+  /dataset/item/{item_idx}:
+    get:
+      operationId: get_item
+      parameters:
+      - description: Dataset item index
+        explode: false
+        in: path
+        name: item_idx
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetItem'
+          description: Dataset item
+        "405":
+          description: Invalid input
+      summary: Get a dataset item
+      tags:
+      - dataset
+      x-openapi-router-controller: external_server.controllers.dataset_controller
+  /dataset/structure:
+    get:
+      description: Get the dataset output structure
+      operationId: dataset_structure
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetStructure'
+          description: Dataset structure
+        "405":
+          description: Invalid input
+      summary: Get the dataset output structure
+      tags:
+      - dataset
+      x-openapi-router-controller: external_server.controllers.dataset_controller
   /model:
     get:
       description: Get model input and output structures
@@ -67,6 +110,45 @@ paths:
       x-openapi-router-controller: external_server.controllers.model_controller
 components:
   schemas:
+    DatasetItem:
+      example:
+        features:
+          key: features
+      properties:
+        features:
+          additionalProperties:
+            format: byte
+            type: string
+          title: features
+          type: object
+      title: DatasetItem
+      type: object
+    DatasetStructure:
+      example:
+        features:
+        - shape:
+          - shape
+          - shape
+          name: name
+          type: type
+        - shape:
+          - shape
+          - shape
+          name: name
+          type: type
+        num_items: 0
+      properties:
+        num_items:
+          format: int32
+          title: num_items
+          type: integer
+        features:
+          items:
+            $ref: '#/components/schemas/DatasetStructure_features_inner'
+          title: features
+          type: array
+      title: DatasetStructure
+      type: object
     ModelStructure:
       example:
         outputs:
@@ -105,6 +187,27 @@ components:
         data:
           format: binary
           type: string
+      type: object
+    DatasetStructure_features_inner:
+      example:
+        shape:
+        - shape
+        - shape
+        name: name
+        type: type
+      properties:
+        name:
+          title: name
+          type: string
+        shape:
+          items:
+            type: string
+          title: shape
+          type: array
+        type:
+          title: type
+          type: string
+      title: DatasetStructure_features_inner
       type: object
     ModelStructure_inputs_inner:
       example:
